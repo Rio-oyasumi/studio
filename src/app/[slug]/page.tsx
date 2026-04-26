@@ -26,9 +26,9 @@ import {
 import { AiSummary } from "@/components/ai-summary";
 
 interface PhonePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -38,8 +38,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function PhonePage({ params }: PhonePageProps) {
-  const phone = getPhoneBySlug(params.slug);
+export default async function PhonePage({ params }: PhonePageProps) {
+  const { slug } = await params;
+  const phone = getPhoneBySlug(slug);
 
   if (!phone) {
     notFound();
